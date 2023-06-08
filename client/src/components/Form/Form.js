@@ -1,15 +1,22 @@
 import React ,{useState} from "react";
 import { TextField, Button, Typography, Paper } from "@material-ui/core";
 import FileBase from 'react-file-base64';
+import {useDispatch} from 'react-redux';
+
 import useStyles from './styles';
+import { createPost } from "../../actions/posts";
+
 const Form = () => {
     const [postData, setPostData] = useState({
         creator:'', title:'', message:'', tags:'', selectedFile:''
     });
     const classes = useStyles();
+    const dispatch = useDispatch();
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault(); /// refresh
 
+        dispatch(createPost(postData));
     }
     const clear = () => {
 
@@ -18,7 +25,7 @@ const Form = () => {
     return (
         <Paper className={classes.paper}>
             <form autoComplete="off" noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant="h6"> Creating a Post</Typography>
+                <Typography variant="h6"> Create Your Post</Typography>
                 <TextField 
                     name="creator" 
                     variant="outlined" 
@@ -49,14 +56,14 @@ const Form = () => {
                     label="Tags" 
                     fullWidth
                     value={postData.tags}
-                    onChange={(e) => setPostData({...postData,tags: e.target.value})}
+                    onChange={(e) => setPostData({...postData,tags: e.target.value.split(',')})}
                 />
 
                 <div className={classes.fileInput}>
                     <FileBase 
                         type="file"
                         multiple={false}
-                        onDone={(base64) => setPostData({...postData,selectedFile:base64})}
+                        onDone={(base64) => {const selectedFile = base64.base64; setPostData({...postData,selectedFile:selectedFile.toString()});}}
                     />
                 </div>
 

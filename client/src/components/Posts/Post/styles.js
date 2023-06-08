@@ -22,13 +22,15 @@ export default makeStyles({
     position: 'relative',
   },
   overlay: {
-    position: 'absolute',
-    top: '20px',
-    left: '20px',
     color: 'white',
   },
+  infobar: {
+    display:'flex',
+    justifyContent: 'space-between',
+    color: 'navy',
+    padding: '12px 0 0 16px',
+  },
   overlay2: {
-    position: 'absolute',
     top: '20px',
     right: '20px',
     color: 'white',
@@ -39,7 +41,7 @@ export default makeStyles({
   details: {
     display: 'flex',
     justifyContent: 'space-between',
-    margin: '20px',
+    margin: '14px',
   },
   title: {
     padding: '0 16px',
