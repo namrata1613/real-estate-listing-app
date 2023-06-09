@@ -7,7 +7,7 @@ import moment from 'moment';
 
 import useStyles from './styles';
 
-const Post = ({post}) => {
+const Post = ({post,setCurrentId}) => {
     const classes = useStyles();
     return (
         <Card classes={classes.card} >
@@ -17,7 +17,7 @@ const Post = ({post}) => {
                  
                 <Typography variant="h6">By {post.creator}</Typography>
                 
-                <Button style={{color:'black'}} size="small" onClick={() => {}} >
+                <Button style={{color:'black'}} size="small" onClick={() => setCurrentId(post._id)} >
                     <MoreHorizIcon fontSize="default" />
                 </Button>
             
