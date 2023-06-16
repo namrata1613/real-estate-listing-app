@@ -10,14 +10,18 @@ import dotenv from 'dotenv';
 import Icon from './icon';
 import useStyles from './styles';
 import Input from './Input';
+import {signup, signin} from '../../actions/auth';
 
 dotenv.config();
+
+const initialState = {firstName:'', lastName:'',email:'',password:'',confirmPassword:''};
 
 const Auth = () => {
     
     const classes = useStyles();
     const [showPassword,setShowPassword] = useState(false);
     const [isSignUp, setisSignUp]= useState(false);
+    const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
     const history = useHistory();
     
@@ -33,12 +37,19 @@ const Auth = () => {
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword );
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        
+        if(isSignUp){               // if sign up
+            dispatch(signup(formData,history)); 
+        }else{
+            dispatch(signin(formData,history)); 
+        }
 
     };
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setFormData({...formData, [e.target.name] : e.target.value});        // changes only the required field with val
     };
 
     const switchMode = () => {
