@@ -5,6 +5,7 @@ import useStyles from './styles';
 import memories from '../../images/memories.jpg';
 import {useDispatch} from 'react-redux';
 import { useHistory, useLocation } from 'react-router-dom';
+import jwt_decode from "jwt-decode";
 
 
 const Navbar = () => {
@@ -13,14 +14,6 @@ const Navbar = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));   // fetching from gauth data
     const history = useHistory();
     const location = useLocation();
-
-    useEffect(() => {
-        const token = user?.token;
-
-        // JWT 
-
-        setUser(JSON.parse(localStorage.getItem('profile')));
-    },[location]);
 
     const logout = () => {
         try {
@@ -31,6 +24,20 @@ const Navbar = () => {
             console.log(error);
         }
     }
+
+    useEffect(() => {
+        const token = user?.token;
+
+        // JWT expire
+        if(token){
+            const decodedToken = jwt_decode(token);
+            if(decodedToken.exp * 1000 < new Date().getTime()) logout();
+        }
+
+        setUser(JSON.parse(localStorage.getItem('profile')));
+    },[location]);
+
+    
 
   return (
     <AppBar className={classes.appBar} position="static" color="inherit">
